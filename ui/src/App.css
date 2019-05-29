@@ -36,16 +36,10 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	/* height: 100%; */
-}
-
-body {
-	background-color: #fff;
 }
 
 .app {
-	font-family: "Open Sans", Verdana, sans-serif;
-	margin: 40vh auto 0;
+	/* margin: 40vh auto 0; */
 	font-size: 18px;
 	transition: all .55s;
 }
