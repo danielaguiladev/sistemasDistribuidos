@@ -1,5 +1,5 @@
 from rest_framework import views, generics
-from . import serializers, models, filters
+from . import serializers, models, filters, pagination
 from django_filters.rest_framework import DjangoFilterBackend
 
 class ListPagesAndConteudo(generics.ListAPIView):
@@ -7,3 +7,4 @@ class ListPagesAndConteudo(generics.ListAPIView):
     serializer_class = serializers.Pagina
     filter_backends = [DjangoFilterBackend, filters.ConteudoFilter, ]
     filterset_fields = ('conteudo', )
+    pagination_class = pagination.ScrapyPagination
