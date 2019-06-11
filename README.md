@@ -32,6 +32,18 @@ docker build -t gulugulu . && docker run -i -p 8000:8000 gulugulu
 <b> Sirva-se a vontade
 ```
 
+
+<h2>
+Roando o mysql na máquina4
+</h2>
+
+```
+docker pull mysql
+docker run --detach --name=mysql -p 3306:3306  --env="MYSQL_ROOT_PASSWORD=root"
+```
+
+
+
 <h2>
 JavaScript ReactJS
 </h2>

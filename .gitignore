@@ -1,6 +1,11 @@
+## ui ## 
 ui/node_modules
 ui/package-lock.json
+ui/build
 
+## idea ##
 .vscode/
 .idea/
-ui/build
+
+## pycache ##
+__pycache__/
