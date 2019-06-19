@@ -1,21 +1,15 @@
 {
   "files": {
-    "main.css": "/sistemasDistribuidos/static/css/main.1039ae54.chunk.css",
-    "main.js": "/sistemasDistribuidos/static/js/main.0891f227.chunk.js",
-    "main.js.map": "/sistemasDistribuidos/static/js/main.0891f227.chunk.js.map",
+    "main.css": "/sistemasDistribuidos/static/css/main.565598d5.chunk.css",
+    "main.js": "/sistemasDistribuidos/static/js/main.dd08fbd9.chunk.js",
+    "main.js.map": "/sistemasDistribuidos/static/js/main.dd08fbd9.chunk.js.map",
     "runtime~main.js": "/sistemasDistribuidos/static/js/runtime~main.a952df53.js",
     "runtime~main.js.map": "/sistemasDistribuidos/static/js/runtime~main.a952df53.js.map",
-    "static/css/2.436d890b.chunk.css": "/sistemasDistribuidos/static/css/2.436d890b.chunk.css",
-    "static/js/2.a2cb1449.chunk.js": "/sistemasDistribuidos/static/js/2.a2cb1449.chunk.js",
-    "static/js/2.a2cb1449.chunk.js.map": "/sistemasDistribuidos/static/js/2.a2cb1449.chunk.js.map",
+    "static/js/2.d8f23bc4.chunk.js": "/sistemasDistribuidos/static/js/2.d8f23bc4.chunk.js",
+    "static/js/2.d8f23bc4.chunk.js.map": "/sistemasDistribuidos/static/js/2.d8f23bc4.chunk.js.map",
     "index.html": "/sistemasDistribuidos/index.html",
-    "precache-manifest.d45f1bd7bcc0f3bb53ad404e955d7465.js": "/sistemasDistribuidos/precache-manifest.d45f1bd7bcc0f3bb53ad404e955d7465.js",
+    "precache-manifest.964278d2a2fa18dec3c670216a0b7b3f.js": "/sistemasDistribuidos/precache-manifest.964278d2a2fa18dec3c670216a0b7b3f.js",
     "service-worker.js": "/sistemasDistribuidos/service-worker.js",
-    "static/css/2.436d890b.chunk.css.map": "/sistemasDistribuidos/static/css/2.436d890b.chunk.css.map",
-    "static/css/main.1039ae54.chunk.css.map": "/sistemasDistribuidos/static/css/main.1039ae54.chunk.css.map",
-    "static/media/AIMsqmnV.mp3": "/sistemasDistribuidos/static/media/AIMsqmnV.d6d29047.mp3",
-    "static/media/cHBfBHfv.mp3": "/sistemasDistribuidos/static/media/cHBfBHfv.369787c5.mp3",
-    "static/media/cSWrcZcB.png": "/sistemasDistribuidos/static/media/cSWrcZcB.3a36d79c.png",
-    "static/media/rsRlAjMp.png": "/sistemasDistribuidos/static/media/rsRlAjMp.fd3ce8aa.png"
+    "static/css/main.565598d5.chunk.css.map": "/sistemasDistribuidos/static/css/main.565598d5.chunk.css.map"
   }
 }
