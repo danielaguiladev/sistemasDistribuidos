@@ -23,15 +23,30 @@ RUN apt install -y curl \
     curl \
     g++ \
     gcc \
-    libmysqlclient-dev
+    libmysqlclient-dev \
+    unixodbc \
+    unixodbc-dev \
+    freetds-dev \
+    freetds-bin \
+    tdsodbc
 
 RUN mkdir /gulugulu
 WORKDIR /gulugulu
 
 COPY . /gulugulu
 
+RUN echo "[FreeTDS]\nDescription = v0.91 with protocol v7.2\n\
+Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
+Setup=/usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
+UsageCount=1" >> /etc/odbcinst.ini
+RUN echo "[scrapy]\n\
+Driver = FreeTDS\n\
+Server = sistemasdistribuidos.database.windows.net\n\
+Port = 1433\n\
+TDS_Version = 7.3" >> /etc/odbc.ini
+
 RUN pip install -r requirements.txt
 
 # Server
 EXPOSE 8000
-#CMD python3 manage.py runserver
+CMD gunicorn --bind 0.0.0.0:8000 gulugulu.wsgi

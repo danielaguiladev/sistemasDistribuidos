@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'scrapy.apps.ScrapyConfig'
+    'scrapy.apps.ScrapyConfig',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -48,7 +49,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'gulugulu.urls'
 
@@ -76,13 +81,19 @@ WSGI_APPLICATION = 'gulugulu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'sql_server.pyodbc',
         'NAME': 'scrapy',
-        'USER': 'root',
-        'PASSWORD': 'mypassword',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    },
+        'USER': 'daniel',
+        'PASSWORD': 'Marcosmolcrente123',
+        'HOST': 'sistemasdistribuidos.database.windows.net',
+        'PORT': '1433',
+        'OPTIONS': {
+            'driver': 'FreeTDS',
+            'unicode_results': True,
+            'host_is_server': True,
+            'extra_params': 'tds_version=7.3;',
+        }
+    }
 }
 
 
@@ -127,4 +138,26 @@ STATIC_URL = '/static/'
 # Filters Framework
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        }
+    }
 }
