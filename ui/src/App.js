@@ -1,11 +1,12 @@
 import React from 'react';
-import { useRoutes } from 'hookrouter';
+import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 import './App.css';
-import { makeStyles } from '@material-ui/core/styles';
 import Search from './Search';
 import Results from './Results';
+import { surprise } from './Surprise';
 
-const useStyles = makeStyles({
+const styles = () => ({
   thanos: {
     position: 'fixed',
     right: 10,
@@ -19,24 +20,45 @@ const useStyles = makeStyles({
   app_no_margin: {}
 });
 
-const routes = {
-  '/': () => <Search />,
-  '/results': () => <Results />,
-};
+class App extends React.Component {
+  state = {
+    showResults: false,
+    loading: false,
+  };
 
-function App() {
-  const classes = useStyles();
-  const routeResult = useRoutes(routes);
+  setShowResults = (searchValue) => {
+    this.setState({ loading: true })
+    this.get(searchValue)
+  }
 
-	return (
-		<div className={classes.bodyWhite}>
-      <div className={(routeResult && (routeResult.type.name === 'Search')) ? classes.app: classes.app_no_margin}>
-        {
-          routeResult || <Search />
-        }
+  async get(searchValue) {
+    if (searchValue) {
+      const results = await axios.get(`https://cors.io/?https://itunes.apple.com/search?term=${searchValue.replace(' ', '+')}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then((response) => {
+          return response.data;
+        })
+      console.log(results)
+      this.setState({ showResults: !this.state.showResults, results: results.results, loading: false }, () => console.log('DAMN', this.state));
+    }
+    this.setState({ loading: false })
+  }
+
+  render() {
+    console.log(surprise);
+    const { classes } = this.props;
+    const { showResults, results, loading } = this.state;
+    return (
+      <div className={classes.bodyWhite}>
+        <div className={showResults ? classes.app_no_margin : classes.app}>
+          {
+            showResults
+              ? <Results resultsArray={results} setShowResults={this.setShowResults} />
+              : <Search setShowResults={this.setShowResults} loading={loading} />
+          }
+        </div>
       </div>
-    </div>
-	);
+    )
+  }
 }
 
-export default App;
+export default withStyles(styles)(App);

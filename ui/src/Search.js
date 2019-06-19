@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles({
+const styles = () => ({
 	bodyBlack: {
 		backgroundColor: '#000',
 		height: '100vh'
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 	},
 	fill: {
 		display: 'flex',
-		width: '98vw',
+		width: '97vw',
 		margin: '1vw',
 	},
 	input: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 	},
 	divider: {
 		width: 1,
-		height: 28,
+		height: 35,
 		margin: 4,
 	},
 	thanos: {
@@ -49,36 +49,52 @@ const useStyles = makeStyles({
 		transition: 'all .55s'
 	},
 	app_no_margin: {
-	}
+	},
 });
 
-function click(searchValue) {
-	console.log('click!', searchValue);
-	window.location.href = "/results"
+class Search extends React.Component {
+	state = {
+		searchValue: null,
+	}
+	click = (searchValue) => {
+		this.props.setShowResults(searchValue);
+	}
+	setSearchValue = (e) => {
+		this.setState({ searchValue: e });
+	}
+
+	keypress = (e, searchValue, loading) => {
+		if (e.key === 'Enter' && !loading) {
+			this.click(searchValue)
+		}
+	}
+
+	render() {
+		const { searchValue } = this.state;
+		const { classes, fill, loading } = this.props;
+		return (
+			<Paper className={fill ? classes.fill : classes.root}>
+				<InputBase
+					onChange={(e) => this.setSearchValue(e.target.value)}
+					className={classes.input}
+					placeholder="Busque aqui"
+					onKeyPress={(e) => this.keypress(e, searchValue, loading)}
+				/>
+				<Divider className={classes.divider} />
+				<IconButton
+					onClick={() => this.click(searchValue)}
+					color="primary" className={classes.iconButton}
+					aria-label="Directions"
+				>
+					{
+						loading
+						? <CircularProgress size={20} />
+						: <SearchIcon />
+					}
+				</IconButton>
+			</Paper>
+		)
+	}
 }
 
-function renderRedirect(redirect, searchValue) {
-	// redirect &&
-	// return <Redirect to={{
-	// 	pathname: "/results",
-	// 	state: searchValue
-	// }} />
-}
-
-function Search({ fill }) {
-	const classes = useStyles();
-	const [searchValue, setSearchValue, redirect, setRedirect] = useState(0);
-	
-	return (
-		<Paper className={fill ? classes.fill : classes.root}>
-			{renderRedirect(redirect, searchValue)}
-			<InputBase onChange={(e) => setSearchValue(e.target.value)} className={classes.input} placeholder="Busque aqui" />
-			<Divider className={classes.divider} />
-			<IconButton onClick={() => click(searchValue)} color="primary" className={classes.iconButton} aria-label="Directions">
-				<SearchIcon />
-			</IconButton>
-		</Paper>
-	);
-}
-
-export default Search;
+export default withStyles(styles)(Search);
