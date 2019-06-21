@@ -9,8 +9,6 @@ class Conteudo(serializers.ModelSerializer):
 
 class Pagina(serializers.ModelSerializer):
 
-    conteudo = Conteudo()
-
     class Meta:
         model = models.Pagina
-        fields = '__all__'
+        fields = ('id', 'titulo', 'link')

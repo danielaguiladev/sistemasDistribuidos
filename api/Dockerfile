@@ -1,24 +1,16 @@
-FROM alpine:latest
-
-USER root
+FROM python:3.6.2
 
 ENV PYTHONUNBUFFERED 1
 
+USER root
+
+
 RUN mkdir /gulugulu
+
 WORKDIR /gulugulu
+COPY . /gulugulu/
+RUN pip install -r requirements.txt
 
-COPY . /gulugulu
-
-RUN apk add --no-cache --virtual python3 \
-    ca-certificates gcc postgresql-dev linux-headers musl-dev \
-    libffi-dev jpeg-dev zlib-dev \
-    py-futures \
-    py-tz \
-    py-pillow \
-    py-gunicorn \
-    ca-certificates \
-    pip3 install -U pip \
-    && pip3 install -r requirements.txt
-
-EXPOSE 8000
-CMD ["sh", "start.sh"]
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku
+CMD python -m textblob.download_corpora && python manage.py runserver 0.0.0.0:$PORT
