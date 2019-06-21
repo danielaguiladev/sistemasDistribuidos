@@ -13,13 +13,19 @@ class ConteudoFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         self.install_ntlk()
         text = request.query_params['query']
-        if text :
+        if text:
             extractor = ConllExtractor()
             nouns = TextBlob(text, np_extractor=extractor)
-            queries = [Q(conteudo__palavra__icontains=noun) for noun in nouns.noun_phrases]
-            query = queries.pop()
-            for items in queries:
-                query |= items
+            nouns_phrases = nouns.noun_phrases
+            tags = [i[0] for i in nouns.tags if i[1].startswith('NN')]
+            if nouns_phrases or tags:
+                text = nouns_phrases if nouns_phrases else tags
+                queries = [Q(conteudo__palavra__icontains=noun) for noun in text]
+                query = queries.pop()
+                for items in queries:
+                    query |= items
+            else:
+                query = Q(conteudo__palavra__icontains=text)
             results = queryset.filter(query).order_by('rank')
             if results:
                 for result in results:

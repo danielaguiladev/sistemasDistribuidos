@@ -1,52 +1,16 @@
-FROM ubuntu:16.04
-
-USER root
+FROM python:3.6.2
 
 ENV PYTHONUNBUFFERED 1
 
-ENV PROFILE 'production'
+USER root
 
-RUN apt-get update
-RUN apt-get install -y software-properties-common vim
-RUN add-apt-repository ppa:jonathonf/python-3.6
-RUN apt-get update
-
-RUN apt-get install -y build-essential python3.6 python3.6-dev python3-pip python3.6-venv
-RUN apt-get install -y git
-
-# update pip
-RUN python3.6 -m pip install pip --upgrade
-RUN python3.6 -m pip install wheel
-
-RUN apt install -y curl \
-    binutils-gold \
-    curl \
-    g++ \
-    gcc \
-    libmysqlclient-dev \
-    unixodbc \
-    unixodbc-dev \
-    freetds-dev \
-    freetds-bin \
-    tdsodbc
 
 RUN mkdir /gulugulu
+
 WORKDIR /gulugulu
-
-COPY . /gulugulu
-
-RUN echo "[FreeTDS]\nDescription = v0.91 with protocol v7.2\n\
-Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
-Setup=/usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
-UsageCount=1" >> /etc/odbcinst.ini
-RUN echo "[scrapy]\n\
-Driver = FreeTDS\n\
-Server = sistemasdistribuidos.database.windows.net\n\
-Port = 1433\n\
-TDS_Version = 7.3" >> /etc/odbc.ini
-
+COPY . /gulugulu/
 RUN pip install -r requirements.txt
 
-# Server
-EXPOSE 8000
-CMD gunicorn --bind 0.0.0.0:8000 gulugulu.wsgi
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku
+CMD python -m textblob.download_corpora && python manage.py runserver 0.0.0.0:$PORT

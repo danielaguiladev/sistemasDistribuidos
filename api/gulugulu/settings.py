@@ -81,18 +81,12 @@ WSGI_APPLICATION = 'gulugulu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'sql_server.pyodbc',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'scrapy',
-        'USER': 'daniel',
+        'USER': 'scrapy@scrapy',
         'PASSWORD': 'Marcosmolcrente123',
-        'HOST': 'sistemasdistribuidos.database.windows.net',
-        'PORT': '1433',
-        'OPTIONS': {
-            'driver': 'FreeTDS',
-            'unicode_results': True,
-            'host_is_server': True,
-            'extra_params': 'tds_version=7.3;',
-        }
+        'HOST': 'scrapy.postgres.database.azure.com',
+        'PORT': '5432'
     }
 }
 
