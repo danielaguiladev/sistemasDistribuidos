@@ -59,7 +59,7 @@ const CssTextField = withStyles({
 		},
 		'& .MuiOutlinedInput-root': {
 			'& fieldset': {
-				borderColor: 'transparent',
+				borderColor: 'primary',
 			},
 			'&:hover fieldset': {
 				borderColor: 'transparent',
@@ -75,9 +75,11 @@ class Search extends React.Component {
 	state = {
 		searchValue: null,
 	}
+
 	click = (searchValue) => {
 		this.props.setShowResults(searchValue);
 	}
+
 	setSearchValue = (e) => {
 		this.setState({ searchValue: e });
 	}
@@ -96,11 +98,12 @@ class Search extends React.Component {
 				<CssTextField
 					onChange={(e) => this.setSearchValue(e.target.value)}
 					onKeyPress={(e) => this.keypress(e, searchValue, loading)}
-					className={classes.input}
+					className={classes.root}
 					label={error ? "Busca inválida!" : "Busque aqui"}
 					variant="outlined"
 					error={error}
-				/>
+				>
+				</CssTextField>
 				<Divider className={classes.divider} />
 				<IconButton
 					onClick={() => this.click(searchValue)}

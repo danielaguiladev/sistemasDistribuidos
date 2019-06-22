@@ -37,7 +37,11 @@ class App extends React.Component {
     if (searchValue) {
       await axios.get(`https://cors.io/?https://gulugulu.herokuapp.com/search?query=${searchValue}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
         .then((response) => {
-          this.setState({ showResults: !this.state.showResults, results: response.data.results, loading: false });
+          if (response.data.results.length > 0) {
+            this.setState({ showResults: !this.state.showResults, results: response.data.results, loading: false });
+          } else {
+            this.setState({ loading: false, error: true })
+          }
         })
         .catch(e => {
           this.setState({ loading: false, error: true })
