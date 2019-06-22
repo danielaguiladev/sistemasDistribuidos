@@ -1,39 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 import './App.css';
-import Thanos from "react-thanos";
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
+import Search from './Search';
+import Results from './Results';
+import { surprise } from './Surprise';
 
-const useStyles = makeStyles({
-  bodyBlack: {
-    backgroundColor: '#000',
-    height: '100vh'
-  },
-  bodyWhite: {
-    backgroundColor: '#fff',
-  },
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    width: 400,
-    margin: '0 auto',
-  },
-  input: {
-    marginLeft: 8,
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    width: 1,
-    height: 28,
-    margin: 4,
-  },
+const styles = () => ({
   thanos: {
     position: 'fixed',
     right: 10,
@@ -44,38 +17,55 @@ const useStyles = makeStyles({
     fontSize: 18,
     transition: 'all .55s'
   },
-  app_no_margin: {
-  }
+  app_no_margin: {}
 });
 
-function App() {
-  const [snap, setSnap] = useState(null);
-  const classes = useStyles();
-  function busca() {
-    console.log("BUSCA!");
+class App extends React.Component {
+  state = {
+    showResults: false,
+    loading: false,
+    error: false,
   };
-	return (
-		<div className={snap ? classes.bodyBlack : classes.bodyWhite}>
-      <div className={snap ? classes.app_no_margin : classes.app}>
-          {
-            !snap &&
-              <Paper className={classes.root}>
-                <InputBase className={classes.input} placeholder="Busque aqui" />
-                <Divider className={classes.divider} />
-                <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
-                  <SearchIcon />
-                </IconButton>
-              </Paper>
+
+  setShowResults = (searchValue) => {
+    this.setState({ loading: true })
+    this.get(searchValue)
+  }
+
+  async get(searchValue) {
+    this.setState({ error: false })
+    if (searchValue) {
+      await axios.get(`https://cors.io/?https://gulugulu.herokuapp.com/search?query=${searchValue}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then((response) => {
+          if (response.data.results.length > 0) {
+            this.setState({ showResults: !this.state.showResults, results: response.data.results, loading: false });
+          } else {
+            this.setState({ loading: false, error: true })
           }
-        <div className={classes.thanos}>
-          <Thanos
-            onSnap={() => {setSnap(true); busca()}}
-            onSnapReverse={() => setSnap(false)}
-          />
+        })
+        .catch(e => {
+          this.setState({ loading: false, error: true })
+        })
+    }
+    this.setState({ loading: false })
+  }
+
+  render() {
+    console.log(surprise);
+    const { classes } = this.props;
+    const { showResults, results, loading, error } = this.state;
+    return (
+      <div className={classes.bodyWhite}>
+        <div className={showResults ? classes.app_no_margin : classes.app}>
+          {
+            showResults
+              ? <Results resultsArray={results} setShowResults={this.setShowResults} />
+              : <Search setShowResults={this.setShowResults} loading={loading} error={error}/>
+          }
         </div>
       </div>
-    </div>
-	);
+    )
+  }
 }
 
-export default App;
+export default withStyles(styles)(App);
