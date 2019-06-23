@@ -2,6 +2,27 @@
 GuluGulu - Passo a Passo
 </h1>
 
+<h4>
+Grupo composto por:
+</h4>
+Daniel Aguila
+<br>
+Gabrielle Liberato
+<br>
+Marcos Mol
+<br>
+Sandro Caio
+
+<h3>
+Disposição do ambiente:
+</h3>
+Backend: https://gulugulu.herokuapp.com/
+<br>
+Frontend: http://danielaguiladev.github.io/sistemasDistribuidos
+<br>
+Banco: scrapy.postgres.database.azure.com
+<br>
+
 <h2>
 Rodar o Django
 </h2>
@@ -9,8 +30,7 @@ Rodar o Django
 <h3>
 Instalar depedencias
 </h3>
-Instale as dependencias do projeto
-Para instalar as dependencias do projeto:
+Instale as dependencias do projeto:
 
 ```
 cd api
@@ -31,18 +51,6 @@ cd api
 docker build -t gulugulu . && docker run -i -p 8000:8000 gulugulu
 <b> Sirva-se a vontade
 ```
-
-
-<h2>
-Roando o mysql na máquina4
-</h2>
-
-```
-docker pull mysql
-docker run --detach --name=mysql -p 3306:3306  --env="MYSQL_ROOT_PASSWORD=root"
-```
-
-
 
 <h2>
 JavaScript ReactJS
