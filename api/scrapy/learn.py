@@ -3,7 +3,7 @@ import csv
 
 if __name__ == "__main__":
     conn = psycopg2.connect(host="scrapy.postgres.database.azure.com",
-    database="scrapy", user="scrapy@scrapy", password="Marcosmolcrente123")
+    database="postgres", user="scrapy@scrapy", password="Marcosmolcrente123")
     cursor = conn.cursor()
 
     with open('vai.csv', 'r') as file:

@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'gulugulu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'scrapy',
+        'NAME': 'postgres',
         'USER': 'scrapy@scrapy',
         'PASSWORD': 'Marcosmolcrente123',
         'HOST': 'scrapy.postgres.database.azure.com',
