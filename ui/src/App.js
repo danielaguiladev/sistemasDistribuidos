@@ -24,6 +24,7 @@ class App extends React.Component {
   state = {
     showResults: false,
     loading: false,
+    error: false,
   };
 
   setShowResults = (searchValue) => {
@@ -32,13 +33,15 @@ class App extends React.Component {
   }
 
   async get(searchValue) {
+    this.setState({ error: false })
     if (searchValue) {
-      const results = await axios.get(`https://cors.io/?https://itunes.apple.com/search?term=${searchValue.replace(' ', '+')}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      await axios.get(`https://cors.io/?https://gulugulu.herokuapp.com/search?query=${searchValue}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
         .then((response) => {
-          return response.data;
+          this.setState({ showResults: !this.state.showResults, results: response.data.results, loading: false });
         })
-      console.log(results)
-      this.setState({ showResults: !this.state.showResults, results: results.results, loading: false }, () => console.log('DAMN', this.state));
+        .catch(e => {
+          this.setState({ loading: false, error: true })
+        })
     }
     this.setState({ loading: false })
   }
@@ -46,14 +49,14 @@ class App extends React.Component {
   render() {
     console.log(surprise);
     const { classes } = this.props;
-    const { showResults, results, loading } = this.state;
+    const { showResults, results, loading, error } = this.state;
     return (
       <div className={classes.bodyWhite}>
         <div className={showResults ? classes.app_no_margin : classes.app}>
           {
             showResults
               ? <Results resultsArray={results} setShowResults={this.setShowResults} />
-              : <Search setShowResults={this.setShowResults} loading={loading} />
+              : <Search setShowResults={this.setShowResults} loading={loading} error={error}/>
           }
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
@@ -16,7 +16,7 @@ const styles = () => ({
 		backgroundColor: '#fff',
 	},
 	root: {
-		padding: '2px 4px',
+		// padding: '2px 4px',
 		display: 'flex',
 		width: 400,
 		margin: '0 auto',
@@ -35,7 +35,7 @@ const styles = () => ({
 	},
 	divider: {
 		width: 1,
-		height: 35,
+		height: 47,
 		margin: 4,
 	},
 	thanos: {
@@ -51,6 +51,25 @@ const styles = () => ({
 	app_no_margin: {
 	},
 });
+
+const CssTextField = withStyles({
+	root: {
+		'& label.Mui-focused': {
+			color: 'primary',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'transparent',
+			},
+			'&:hover fieldset': {
+				borderColor: 'transparent',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'transparent',
+			},
+		},
+	},
+})(TextField);
 
 class Search extends React.Component {
 	state = {
@@ -71,14 +90,16 @@ class Search extends React.Component {
 
 	render() {
 		const { searchValue } = this.state;
-		const { classes, fill, loading } = this.props;
+		const { classes, fill, loading, error } = this.props;
 		return (
 			<Paper className={fill ? classes.fill : classes.root}>
-				<InputBase
+				<CssTextField
 					onChange={(e) => this.setSearchValue(e.target.value)}
-					className={classes.input}
-					placeholder="Busque aqui"
 					onKeyPress={(e) => this.keypress(e, searchValue, loading)}
+					className={classes.input}
+					label={error ? "Busca inválida!" : "Busque aqui"}
+					variant="outlined"
+					error={error}
 				/>
 				<Divider className={classes.divider} />
 				<IconButton
@@ -88,8 +109,8 @@ class Search extends React.Component {
 				>
 					{
 						loading
-						? <CircularProgress size={20} />
-						: <SearchIcon />
+							? <CircularProgress size={20} />
+							: <SearchIcon />
 					}
 				</IconButton>
 			</Paper>
